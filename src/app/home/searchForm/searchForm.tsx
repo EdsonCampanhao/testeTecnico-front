@@ -4,18 +4,25 @@ import { useState } from "react";
 type setEvent = {
     eventOfComponent: React.Dispatch<React.SetStateAction<string>>;
     eventOfForm: React.Dispatch<React.SetStateAction<string>>;
+    eventOfError: React.Dispatch<React.SetStateAction<string>>;
 
 
 }
 
 
 
-export default function SearchForm({ eventOfComponent, eventOfForm }: setEvent) {
+export default function SearchForm({ eventOfComponent, eventOfForm, eventOfError }: setEvent) {
 
     const [getLocal, setLocal] = useState("")
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
+        if(getLocal == ''){
+            eventOfError("Por favor, digite o nome de uma cidade!")
+            return eventOfComponent("Error")
+        }
+
         handleLocalInput();
         handleComponent();
     }
@@ -23,7 +30,7 @@ export default function SearchForm({ eventOfComponent, eventOfForm }: setEvent) 
         eventOfForm(getLocal)
     }
     const handleComponent = () => {
-        eventOfComponent("Show")
+        eventOfComponent("ShowPkm")
     }
 
     return (

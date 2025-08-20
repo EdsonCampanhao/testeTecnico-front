@@ -2,12 +2,14 @@
 import { useState, useEffect } from "react"
 import SearchForm from "./searchForm/searchForm"
 import ShowPKM from "./showPKM/showPKM"
+import ShowError from "./showError/showError"
 
 
 export default function () {
 
     const [getCurrentComponent, setCurrentComponent] = useState("Form")
     const [getLocal, setLocal] = useState("")
+    const [getError, setError] = useState("")
     const [getPokemon, setPokemon] = useState()
 
     useEffect(() => {
@@ -20,7 +22,10 @@ export default function () {
                 const response = await fetch(`http://localhost:3000/getPKM?city=${getLocal}`);
                 
                 const json = await response.json();
-                console.log(json)
+                if(json=="Nenhuma cidade encontrada!"){
+                    setError(json)
+                    return setCurrentComponent("Error")
+                }
                 return setPokemon(json)
 
             } catch (err) {
@@ -37,11 +42,14 @@ export default function () {
     return (
         <section className=" bg-blue-200 h-screen flex justify-center items-center">
 
-            {getCurrentComponent === "Form"
-                ? <SearchForm eventOfComponent={setCurrentComponent} eventOfForm={setLocal} />
-                : getPokemon != null
-                    ? <ShowPKM eventOfComponent={setCurrentComponent} eventOfForm={setLocal} getPokemon={getPokemon} setPokemon={setPokemon}/>
-                    : <ShowPKM eventOfComponent={setCurrentComponent} eventOfForm={setLocal} getPokemon={null} setPokemon={setPokemon}/>
+            {
+            getCurrentComponent === "Form"? 
+                <SearchForm eventOfComponent={setCurrentComponent} eventOfForm={setLocal} eventOfError={setError} />:
+                    getCurrentComponent === "ShowPkm"?
+                        getPokemon != null? 
+                            <ShowPKM eventOfComponent={setCurrentComponent} eventOfForm={setLocal} getPokemon={getPokemon} setPokemon={setPokemon}/>
+                            : <ShowPKM eventOfComponent={setCurrentComponent} eventOfForm={setLocal} getPokemon={null} setPokemon={setPokemon}/>
+                        : <ShowError  error={getError} eventOfForm={setCurrentComponent}/>
             }
 
         </section>
