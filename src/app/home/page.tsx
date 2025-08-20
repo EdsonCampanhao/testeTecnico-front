@@ -17,11 +17,10 @@ export default function () {
         const fetchData = async () => {
 
             try {
-                console.log(getLocal)
-
                 const response = await fetch(`http://localhost:3000/getPKM?city=${getLocal}`);
-                console.log(response)
+                
                 const json = await response.json();
+                console.log(json)
                 return setPokemon(json)
 
             } catch (err) {
@@ -36,13 +35,13 @@ export default function () {
 
 
     return (
-        <section className=" bg-amber-200 h-screen flex justify-center items-center">
+        <section className=" bg-blue-200 h-screen flex justify-center items-center">
 
             {getCurrentComponent === "Form"
                 ? <SearchForm eventOfComponent={setCurrentComponent} eventOfForm={setLocal} />
                 : getPokemon != null
-                    ? <ShowPKM event={setCurrentComponent} pokemon={getPokemon} />
-                    : <ShowPKM event={setCurrentComponent} pokemon={null} />
+                    ? <ShowPKM eventOfComponent={setCurrentComponent} eventOfForm={setLocal} getPokemon={getPokemon} setPokemon={setPokemon}/>
+                    : <ShowPKM eventOfComponent={setCurrentComponent} eventOfForm={setLocal} getPokemon={null} setPokemon={setPokemon}/>
             }
 
         </section>
