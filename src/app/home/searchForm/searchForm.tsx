@@ -1,14 +1,29 @@
 import React from "react";
+import { useState } from "react";
 type setEvent = {
-    event: React.Dispatch<React.SetStateAction<string>>;
+    eventOfComponent: React.Dispatch<React.SetStateAction<string>>;
+    eventOfForm: React.Dispatch<React.SetStateAction<string>>;
+
 
 }
 
-export default function SearchForm({event}:setEvent) {
+
+
+export default function SearchForm({eventOfComponent,eventOfForm}:setEvent) {
+
+    const [getLocal,setLocal]=useState("")
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        event("Show")
+        handleLocalInput();
+        handleComponent();
+    }
+    const handleLocalInput = ()=>{
+        console.log(getLocal)
+        eventOfForm(getLocal)
+    }
+    const handleComponent = () =>{
+        eventOfComponent("Show")
     }
 
     return (
@@ -20,6 +35,8 @@ export default function SearchForm({event}:setEvent) {
                 type="text"
                 id="local"
                 name="local"
+                value={getLocal}
+                onChange={(e) => setLocal(e.target.value)}
                 className="px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Digite uma cidade!"
             />

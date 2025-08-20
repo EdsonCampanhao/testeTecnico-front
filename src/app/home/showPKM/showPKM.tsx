@@ -1,6 +1,7 @@
 type pkm = {
+    local: string;
     name: string;
-    img: string;
+    sprite: string;
     type: string;
     temp: string;
     isRaining: boolean;
@@ -10,9 +11,10 @@ type showProps = {
     event: React.Dispatch<React.SetStateAction<string>>
 }
 
-export default function ShowPKM({ pokemon, event }: showProps,) {
+export default function ShowPKM({ pokemon, event }: showProps) {
     const handleNewSearch = () => {
         event("Form")
+        
     }
 
     if (!pokemon) return (
@@ -25,14 +27,14 @@ export default function ShowPKM({ pokemon, event }: showProps,) {
 
     return (
         <section className="flex flex-col justify-center items-center w-52">
-            <h2>Você encontrou um {pokemon.name}</h2>
-            <img srcSet={pokemon.img} alt={`Imagem ilustrativa de um ${pokemon.name}`}>
-                <div className="flex justify-between">
-                    <p>{pokemon.temp}</p>
-                    <p>{pokemon.type}</p>
-                    <p>{pokemon.isRaining}</p>
-                </div>
-            </img>
+            <h2>Você encontrou um {pokemon.name} em {pokemon.local}</h2>
+            <img srcSet={pokemon.sprite} alt={`Imagem ilustrativa de um ${pokemon.name}`} />
+            <div className="flex justify-between">
+                <p>{pokemon.temp}</p>
+                <p>{pokemon.type}</p>
+                <p>{pokemon.isRaining}</p>
+            </div>
+
             <button onClick={handleNewSearch}>Nova caçada</button>
         </section>
     )
