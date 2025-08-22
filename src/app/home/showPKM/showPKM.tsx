@@ -1,3 +1,5 @@
+import GetPkm from "./getPKM/getPKM";
+
 type pkm = {
     local: string;
     name: string;
@@ -127,7 +129,7 @@ export default function ShowPKM({ getPokemon, setPokemon, eventOfComponent, even
                     </div>
                 </div>
             </div>
-
+            <GetPkm name={getPokemon.name} sprite={getPokemon.sprite}/>
             <button
                 onClick={handleNewSearch}
                 className="w-full px-6 py-3 bg-blue-500 text-white font-medium text-lg rounded-xl transition-all duration-200 hover:bg-blue-600 active:bg-blue-700 active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-offset-2 shadow-lg hover:shadow-xl"
