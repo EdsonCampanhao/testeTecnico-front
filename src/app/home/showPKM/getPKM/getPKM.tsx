@@ -17,7 +17,8 @@ export default function GetPkm({ name, sprite }: pkm) {
             const response = await fetch(`${apiUrl}/catchPokemon`, {
                 method: "Post",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${user.jwt}` // ✅ envia o token JWT
                 },
                 body: JSON.stringify(
                     {

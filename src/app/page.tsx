@@ -51,15 +51,18 @@ export default function Home() {
       const response = await fetch(`${apiUrl}/catchedPokemon`, {
         method: "Post",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${user.jwt}`
         },
         body: JSON.stringify(
           {
-            userId: user.userId
+            userId: user.id
           }
         )
       })
       const json = await response.json();
+      localStorage.setItem("pokemons",JSON.stringify(json))
+
     } catch (err) {
       console.log("erro ao pegar os pokemons capturados", err)
     }

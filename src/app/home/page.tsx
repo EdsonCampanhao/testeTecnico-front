@@ -26,8 +26,15 @@ export default function () {
             const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
             try {
+                const user = JSON.parse(localStorage.getItem("pokeHunterUser") || "{}");
                 console.log("tentei fetch")
-                const response = await fetch(`${apiUrl}/getPKM?city=${getLocal}`);
+                const response = await fetch(`${apiUrl}/getPKM?city=${getLocal}`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${user.jwt}` // ✅ envia o token JWT
+                    }
+                });
                 console.log("Status:", response.status, response.statusText);
                 const json = await response.json();
                 console.log(json)
@@ -50,7 +57,7 @@ export default function () {
 
     return (
         <section className=" bg-blue-200 h-screen flex justify-center items-center">
-            <BagIcon/>
+            <BagIcon />
 
             {
                 getCurrentComponent === "Form" ?
