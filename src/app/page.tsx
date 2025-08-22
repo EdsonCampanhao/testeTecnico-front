@@ -3,11 +3,12 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import ErrorMessage from "./signUp/error/error";
 
 export default function Home() {
 
   const router = useRouter();
-
+  const [getError, setError] = useState(null)
   const [getEmail, setEmail] = useState("")
   const [getPassword, setPassword] = useState("")
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
@@ -28,32 +29,40 @@ export default function Home() {
         )
       })
 
-
       const json = await response.json();
       localStorage.setItem("pokeHunterUser", JSON.stringify(json));
+
+      if (json.message == "Senha incorreta") {
+        return setError("Senha incorreta!")
+      } else if (json == "Email não cadastrado!") {
+        return setError("Email não cadastrado!")
+      }
+
 
     }
     catch (err) {
       return console.log("Erro ao tentar conectar", err)
     }
 
-    // try {
-    //   const user = JSON.parse(localStorage.getItem("pokeHunterUser") || "{}");
-    //   const response = await fetch(`${apiUrl}/catchedPokemon`, {
-    //     method: "Post",
-    //     headers: {
-    //       "Content-Type": "application/json"
-    //     },
-    //     body: JSON.stringify(
-    //       {
-    //         userId:user.userId
-    //       }
-    //     )
-    //   })
-    //   const json = await response.json();
-    // } catch (err) {
-    //   return console.log("erro ao pegar os pokemons capturados",err)
-    // }
+    localStorage.setItem("pokemons", "")
+
+    try {
+      const user = JSON.parse(localStorage.getItem("pokeHunterUser") || "{}");
+      const response = await fetch(`${apiUrl}/catchedPokemon`, {
+        method: "Post",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(
+          {
+            userId: user.userId
+          }
+        )
+      })
+      const json = await response.json();
+    } catch (err) {
+      console.log("erro ao pegar os pokemons capturados", err)
+    }
 
     router.push("/home")
   }
@@ -102,13 +111,14 @@ export default function Home() {
             </div>
 
 
-
+            {getError != null && <ErrorMessage message={getError} />}
             <button
               type="submit"
               className="border border-blue-300 w-full bg-baby-blue-600 hover:bg-baby-blue-500  font-medium py-3 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-baby-blue-500 "
             >
               Entrar
             </button>
+
           </form>
 
           <div className="mt-6 text-center">

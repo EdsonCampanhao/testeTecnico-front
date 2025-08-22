@@ -3,6 +3,7 @@ import { useState, useEffect } from "react"
 import SearchForm from "./searchForm/searchForm"
 import ShowPKM from "./showPKM/showPKM"
 import ShowError from "./showError/showError"
+import BagIcon from "./bagIcon/bagIcon"
 
 
 
@@ -49,6 +50,7 @@ export default function () {
 
     return (
         <section className=" bg-blue-200 h-screen flex justify-center items-center">
+            <BagIcon/>
 
             {
                 getCurrentComponent === "Form" ?

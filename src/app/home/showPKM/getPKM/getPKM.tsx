@@ -21,7 +21,7 @@ export default function GetPkm({ name, sprite }: pkm) {
                 },
                 body: JSON.stringify(
                     {
-                        userId: user.userId,
+                        userId: user.id,
                         name: name,
                         url: sprite
                     }
@@ -30,7 +30,7 @@ export default function GetPkm({ name, sprite }: pkm) {
             const json = await response.json();
             const catchedPokemons = localStorage.getItem("pokemons");
 
-            if (catchedPokemons == null) {
+            if (catchedPokemons == "") {
                 const pokemons: pkm[] = []
                 pokemons.push({ name: name, sprite: sprite })
                 localStorage.setItem("pokemons", JSON.stringify(pokemons))
